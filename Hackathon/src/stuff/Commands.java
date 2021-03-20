@@ -151,6 +151,7 @@ public class Commands {
      */
     public int count(String path, String input) throws FileNotFoundException {
         int count = 0;
+        input = input.toLowerCase();
         Scanner file = new Scanner(new File(path));
         if (readFile(path)) {
             File fileInput = new File(path);
