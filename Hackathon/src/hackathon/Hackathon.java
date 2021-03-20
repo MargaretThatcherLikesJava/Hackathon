@@ -11,6 +11,7 @@ import java.io.*;
 import java.util.*;
 
 import stuff.*;
+import Poetry.*;
 
 /**
  *
@@ -25,17 +26,22 @@ public class Hackathon {
         // Theme: They are all the same
         // autocorrect
         
-        String fileName = "10thousandwords.txt";
         String fileName2 = "300thousandwords.txt";
         String fileName3 = "500thousandwords.txt";
+        String fileName4 = "1millionwords.txt";
         
+        String book1 = "theadventuresofsherlockholmes.txt";
+        String book2 = "insearchoflosttime.txt";
+        String book3 = "infinitejest.txt";
+        
+        /*
         Scanner userPrompt = new Scanner(System.in);    // prompt user input
         System.out.println("Enter a word");
         String userInput = userPrompt.nextLine();
-        System.out.println(userInput);
+        */
+        //Commands newCommand = new Commands("search", fileName4, userInput);
         
-        Commands newCorrect = new Commands("search", fileName3, userInput);
-        
+        Commands newCommand = new Commands("count", book1);
         
     }
     

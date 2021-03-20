@@ -15,7 +15,6 @@ import java.util.*;
 public class Commands {
     
     private String _file;
-    private String _file2;
     private String _command;    // search, compare
     private String _userInput;
     
@@ -26,12 +25,9 @@ public class Commands {
         this.control();
     }
     
-    public Commands(String command, String path, String path2, String userInput) throws FileNotFoundException {
+    public Commands(String command, String path) throws FileNotFoundException {
         _command = command;
         _file = path;
-        _file2 = path2;
-        _userInput = userInput;
-        this.control();
     }
 
     /**
@@ -53,6 +49,30 @@ public class Commands {
     }
     
     /**
+     * Searches through file to find string s
+     * @param path file location
+     * @param s user string input
+     * @return true if found
+     * @throws FileNotFoundException 
+     */
+    public boolean contains(String path, String input) throws FileNotFoundException {
+        boolean contains = false;
+        input = input.toLowerCase();
+        if (readFile(path)) {
+            File fileInput = new File(path);
+            Scanner in = new Scanner(fileInput);
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+                line = line.toLowerCase();
+                if (input.equals(line)) {
+                    contains = true;
+                }
+            } 
+        }
+        return contains;
+    }
+    
+    /**
      * Counts the total words. since they're one per line, counts lines
      * @return total word count
      * @throws FileNotFoundException 
@@ -63,8 +83,8 @@ public class Commands {
             File fileInput = new File(_file);   
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
-            String line = in.nextLine();
-            total++;
+                String line = in.nextLine();
+                total++;
             }
         } else {
             System.out.println("Error! Cannot read file");
@@ -72,14 +92,25 @@ public class Commands {
         return total;
     }
     
-    public int findLineNumber(String path, String s) throws FileNotFoundException{
+    /**
+     * 
+     * @param path
+     * @param input
+     * @return
+     * @throws FileNotFoundException 
+     */
+    public int findLineNumber(String path, String input) throws FileNotFoundException{
         int number = 0;
-        if (readFile(path) && searchText(path, s)) {
+        input = input.toLowerCase();
+        if (readFile(path) && contains(path, input)) {
             File fileInput = new File(_file);   
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
-            String line = in.nextLine();
-            number++;
+                String line = in.nextLine();
+                if (input.equals(line)){
+                    break;
+                }
+                number++;
             }
         }
         return number;
@@ -89,8 +120,8 @@ public class Commands {
         _command = _command.toLowerCase();
         if (_command == "search") {
             searchText(_file, _userInput);
-        } else if (_command == "compare") {
-            
+        } else if (_command == "count") {
+            count(_file, _userInput);
         }
     }
     /**
@@ -99,48 +130,38 @@ public class Commands {
      * @return
      * @throws FileNotFoundException 
      */
-    public boolean searchText(String path, String s) throws FileNotFoundException{
-        String result = "";
-        int lineCounter = 0;
-        boolean contains = false;
-        s = s.toLowerCase();
+    public String searchText(String path, String input) throws FileNotFoundException {
+        String message = "";
+        if (readFile(path) && contains(path, input)) {
+            int totalWords = countWords(path);
+            int lineNumber = findLineNumber(path, input);
+            String displayFoundFile = input + " found" + " in file " + path;
+            String displayFoundNumber = "Found at line " + lineNumber + " out of " + totalWords + " total lines";
+            message = displayFoundFile + "\n" + displayFoundNumber;
+        } else {
+            message = input + " not found in " + path;
+        }
+        System.out.println(message+"\n");
+        return message;
+    }
+    
+    /**
+     * Counts the occurrences of a particular word
+     * @return number of occurrences
+     */
+    public int count(String path, String input) throws FileNotFoundException {
+        int count = 0;
+        Scanner file = new Scanner(new File(path));
         if (readFile(path)) {
-            File fileInput = new File(_file);
+            File fileInput = new File(path);
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
                 String line = in.nextLine();
-                line = line.toLowerCase();
-                lineCounter++;
-                if (s.equals(line)) {
-                    String displayStatus = "Word found: " + line;
-                    String displayFileName = "In file: " + _file;
-                    String displayLineNumber = "Word " + lineCounter + " of " +countWords(_file) + "\n";
-                    contains = true;
-                    System.out.println(displayStatus);
-                    System.out.println(displayFileName);
-                    System.out.println(displayLineNumber);
-                } 
-            }
-            
-        }
-        return contains;
-    }
-    
-    public int compare(String path1, String path2) throws FileNotFoundException{
-        int difference = 0;
-        
-        if(readFile(path1) && readFile(path2)) {
-            int totalWordsFile1 = countWords(path1);
-            int totalWordsFile2 = countWords(path2);
-            int lineNumber1 = findLineNumber(path1, _userInput);
-            int lineNumber2 = findLineNumber(path2, _userInput);
-            
-            
-        } else {
-            
-        }
-        
-        return difference;
+                System.out.println(line);
+                count++;
+                }
+            } 
+        return count;
     }
    
     @Override
