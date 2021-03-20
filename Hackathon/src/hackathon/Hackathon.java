@@ -23,7 +23,7 @@ public class Hackathon {
         // Theme: They are all the same
         // autocorrect
         
-        //String fileName = "10thousandwords.txt";
+        String fileName = "10thousandwords.txt";
         String fileName2 = "300thousandwords.txt";
         String fileName3 = "500thousandwords.txt";
         
@@ -39,8 +39,9 @@ public class Hackathon {
         //System.out.println(newCorrect.searchText("String"));
         
         Correct newCorrect = new Correct(fileName3);
-        newCorrect.readFile();
-        System.out.println(newCorrect.countWords());
+        
+        
+        newCorrect.searchText("String");
     }
     
 }

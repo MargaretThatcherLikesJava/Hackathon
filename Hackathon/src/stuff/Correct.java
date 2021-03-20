@@ -14,14 +14,15 @@ import java.util.*;
  */
 public class Correct {
     
-    private String _path;
+    private String _file;
+    private int _wordCount;
     
     public Correct(String path) {
-        _path = path;
+        _file = path;
     }
     
     public String getPath() {
-        return _path;
+        return _file;
     }
     
     /**
@@ -32,14 +33,12 @@ public class Correct {
     public boolean readFile() throws FileNotFoundException {
         boolean hasRead = false;    // can read
         try {
-            File fileInput = new File(_path);   
+            File fileInput = new File(_file);   
             Scanner in = new Scanner(fileInput);
             in.close();
             hasRead = true;
-            System.out.println("Success! read file");
         } catch (Exception e) {
             hasRead = false;
-            System.out.println("Error! Cannot read file");;
         }
         return hasRead;
     }
@@ -49,19 +48,21 @@ public class Correct {
      * @return total word count
      * @throws FileNotFoundException 
      */
-    public int countWords() throws FileNotFoundException {
-        int i = 0;
+    public String countWords() throws FileNotFoundException {
+        String message = "";
+        _wordCount = 0;
         if (readFile()) {
-            File fileInput = new File(_path);   
+            File fileInput = new File(_file);   
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
             String line = in.nextLine();
-            i++;
+            _wordCount++;
             }
         } else {
             System.out.println("Error! Cannot read file");
         }
-        return i;
+        message = "Word Count: " + _wordCount;
+        return message;
     }
     
     /**
@@ -74,16 +75,23 @@ public class Correct {
     public ArrayList<String> searchText(String s) throws FileNotFoundException {
         ArrayList<String> words = new ArrayList<String>();
         if (readFile()) {
-            File fileInput = new File(_path);
+            File fileInput = new File(_file);
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
                 String line = in.nextLine();
-                if (s == line) {    // whole word found, done
+                if (s.equals(line)) {    // whole word found, done
                     words.add(s);
                 } else {    // no whole found, find similar words
-                    char[] sArray = s.toCharArray();
-                    char[] lineArray = line.toCharArray();
-                    
+                    char[] sArray = s.toCharArray();    // passed string
+                    char[] lineArray = line.toCharArray();  // word in file
+                    for (int i = 0; i < sArray.length; i++) {
+                        for (int j = 0; j < lineArray.length; i++) {
+                            if (line.equals(sArray[i])) {
+                                line = String.valueOf(lineArray);
+                                words.add(line);
+                            }
+                        }
+                    }
                     
                 }
             }
@@ -91,5 +99,12 @@ public class Correct {
             System.out.println("Error! Cannot read file.");
         }
         return words;
+    }
+    
+    @Override
+    public String toString() {
+        String displayPath = "File: " + _file;
+        String displayWordCount = "Word Count: " + _wordCount;
+        return displayPath + "\n" + displayWordCount;
     }
 }
