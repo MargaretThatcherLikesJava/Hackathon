@@ -29,20 +29,19 @@ public class Hackathon {
         String fileName3 = "500thousandwords.txt";
         String fileName4 = "1millionwords.txt";
         
-        String book1 = "theadventuresofsherlockholmes.txt";
-        String book2 = "insearchoflosttime.txt";
-        String book3 = "infinitejest.txt";
+        String book1 = "insearchoflosttime.txt";
+        String book2 = "infinitejest.txt";
         
         /*
         Scanner userPrompt = new Scanner(System.in);    // prompt user input
         System.out.println("Enter a word");
         String userInput = userPrompt.nextLine();
+        
+        Commands newCommand = new Commands("search", fileName4, userInput);
         */
-        //Commands newCommand = new Commands("search", fileName4, userInput);
         
         Commands newCommand = new Commands("count", book1);
-        newCommand.count(book3, "the");
-
+        newCommand.count(book1, "the");
     }
     
 }
