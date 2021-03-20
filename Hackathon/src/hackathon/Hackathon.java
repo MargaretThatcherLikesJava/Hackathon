@@ -6,8 +6,10 @@
 */
 
 package hackathon;
+
 import java.io.*;
 import java.util.*;
+
 import stuff.*;
 
 /**
@@ -27,22 +29,14 @@ public class Hackathon {
         String fileName2 = "300thousandwords.txt";
         String fileName3 = "500thousandwords.txt";
         
-        /*
         Scanner userPrompt = new Scanner(System.in);    // prompt user input
         System.out.println("Enter a word");
         String userInput = userPrompt.nextLine();
         System.out.println(userInput);
-        */
         
-        //Correct newCorrect = new Correct(fileName, "String");
-        //System.out.println(newCorrect.readFile());
-        //System.out.println(newCorrect.searchText("String"));
-        
-        Correct newCorrect = new Correct(fileName3);
+        Commands newCorrect = new Commands("search", fileName3, userInput);
         
         
-
-        System.out.println(newCorrect.searchText("String"));
     }
     
 }
