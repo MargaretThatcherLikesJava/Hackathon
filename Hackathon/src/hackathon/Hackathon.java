@@ -23,9 +23,9 @@ public class Hackathon {
         // Theme: They are all the same
         // autocorrect
         
-        String fileName = "WordList.txt";   // read file
-        File fileInput = new File(fileName);
-        Scanner in = new Scanner(fileInput);
+        //String fileName = "10thousandwords.txt";
+        String fileName2 = "300thousandwords.txt";
+        String fileName3 = "500thousandwords.txt";
         
         /*
         Scanner userPrompt = new Scanner(System.in);    // prompt user input
@@ -34,9 +34,13 @@ public class Hackathon {
         System.out.println(userInput);
         */
         
-        Predict newPredict = new Predict("String");
-
+        //Correct newCorrect = new Correct(fileName, "String");
+        //System.out.println(newCorrect.readFile());
+        //System.out.println(newCorrect.searchText("String"));
         
+        Correct newCorrect = new Correct(fileName3);
+        newCorrect.readFile();
+        System.out.println(newCorrect.countWords());
     }
     
 }
