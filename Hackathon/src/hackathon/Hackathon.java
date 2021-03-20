@@ -11,7 +11,6 @@ import java.io.*;
 import java.util.*;
 
 import stuff.*;
-import Poetry.*;
 
 /**
  *
@@ -42,7 +41,8 @@ public class Hackathon {
         //Commands newCommand = new Commands("search", fileName4, userInput);
         
         Commands newCommand = new Commands("count", book1);
-        
+        newCommand.count(book3, "was");
+
     }
     
 }

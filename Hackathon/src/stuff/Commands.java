@@ -157,12 +157,21 @@ public class Commands {
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
                 String line = in.nextLine();
-                System.out.println(line);
-                count++;
+                String[] tokens = line.split(" ");
+                for (int i = 0; i < tokens.length; i++){
+                    if (tokens[i].equals(input)) {
+                        count++;
+                    }
+                }
                 }
             } 
+        String message = "There are " + count + " instances of the word " + 
+                "'" +input+"'" + " in the book " + path;
+                
+        System.out.println(message);
         return count;
     }
+
    
     @Override
     public String toString() {
