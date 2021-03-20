@@ -5,6 +5,9 @@
  */
 package stuff;
 
+import java.io.*;
+import java.util.*;
+
 /**
  *
  * @author chee
@@ -14,7 +17,7 @@ public class Predict {
     private String _text;
     private String _filePath = "WordList.txt";
     
-    Predict(String text) {
+    public Predict(String text) {
         _text = text;
     }
     
@@ -22,6 +25,24 @@ public class Predict {
         return _text;
     }
     
+    public boolean readFile() throws FileNotFoundException {
+        boolean hasRead = false;
+        try {
+            File fileInput = new File(_filePath);
+            Scanner in = new Scanner(fileInput);
+            hasRead = true;
+        } catch (Exception e) {
+            hasRead = false;
+        }
+        return hasRead;
+    }
     
+    public boolean searchText(String s) {
+        boolean hasFound = false;
+        
+        
+        
+        return hasFound;
+    }
     
 }
