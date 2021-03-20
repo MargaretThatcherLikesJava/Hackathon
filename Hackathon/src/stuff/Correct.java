@@ -65,6 +65,12 @@ public class Correct {
         return message;
     }
     
+    /*
+    public double percentageOf(char [] array) {
+        
+    }
+    */
+    
     /**
      * Search word file for a word. If found stops. If not, finds similar to the String passed. 
      * If many found, add to ArrayList.
@@ -79,19 +85,25 @@ public class Correct {
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
                 String line = in.nextLine();
+                line.toLowerCase();
+                s.toLowerCase();
                 if (s.equals(line)) {    // whole word found, done
-                    words.add(s);
+                    words.add(line);
                 } else {    // no whole found, find similar words
                     char[] sArray = s.toCharArray();    // passed string
                     char[] lineArray = line.toCharArray();  // word in file
-                    for (int i = 0; i < sArray.length; i++) {
-                        for (int j = 0; j < lineArray.length; i++) {
-                            if (line.equals(sArray[i])) {
-                                line = String.valueOf(lineArray);
+                    
+                    int count = 0;
+                    for (int i = 0; i < lineArray.length; i++) {
+                        for (int j = 0; j < sArray.length; j++) {
+                            if (lineArray[i] == sArray[j]) {
+                                line = new String(line);
                                 words.add(line);
+                                
                             }
                         }
                     }
+                    
                     
                 }
             }

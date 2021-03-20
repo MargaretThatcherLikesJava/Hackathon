@@ -41,7 +41,8 @@ public class Hackathon {
         Correct newCorrect = new Correct(fileName3);
         
         
-        newCorrect.searchText("String");
+
+        System.out.println(newCorrect.searchText("String"));
     }
     
 }
