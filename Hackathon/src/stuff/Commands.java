@@ -15,8 +15,8 @@ import java.util.*;
 public class Commands {
     
     private String _file;
-    private int _wordCount;
-    private String _command;    // search, similar
+    private String _file2;
+    private String _command;    // search, compare
     private String _userInput;
     
     public Commands(String command, String path, String userInput) throws FileNotFoundException {
@@ -26,16 +26,23 @@ public class Commands {
         this.control();
     }
     
+    public Commands(String command, String path, String path2, String userInput) throws FileNotFoundException {
+        _command = command;
+        _file = path;
+        _file2 = path2;
+        _userInput = userInput;
+        this.control();
+    }
 
     /**
      * Checks if the file is readable
      * @return
      * @throws FileNotFoundException 
      */
-    public boolean readFile() throws FileNotFoundException {
+    public boolean readFile(String path) throws FileNotFoundException {
         boolean hasRead = false;    // can read
         try {
-            File fileInput = new File(_file);   
+            File fileInput = new File(path);   
             Scanner in = new Scanner(fileInput);
             in.close();
             hasRead = true;
@@ -50,46 +57,54 @@ public class Commands {
      * @return total word count
      * @throws FileNotFoundException 
      */
-    public String countWords() throws FileNotFoundException {
-        String message = "";
-        _wordCount = 0;
-        if (readFile()) {
+    public int countWords(String path) throws FileNotFoundException {
+        int total = 0;
+        if (readFile(path)) {
             File fileInput = new File(_file);   
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
             String line = in.nextLine();
-            _wordCount++;
+            total++;
             }
         } else {
             System.out.println("Error! Cannot read file");
         }
-        message = "Word Count: " + _wordCount;
-        return message;
+        return total;
     }
-   
+    
+    public int findLineNumber(String path, String s) throws FileNotFoundException{
+        int number = 0;
+        if (readFile(path) && searchText(path, s)) {
+            File fileInput = new File(_file);   
+            Scanner in = new Scanner(fileInput);
+            while (in.hasNextLine()) {
+            String line = in.nextLine();
+            number++;
+            }
+        }
+        return number;
+    }
+    
+    public void control() throws FileNotFoundException {
+        _command = _command.toLowerCase();
+        if (_command == "search") {
+            searchText(_file, _userInput);
+        } else if (_command == "compare") {
+            
+        }
+    }
     /**
-     * Search word file for a word. If found stops. If not, finds similar to the String passed. 
-     * If many found, add to ArrayList.
+     * Searches through file for string. If found, returns with information
      * @param s
-     * @return List of same words, or if not the same, similar
+     * @return
      * @throws FileNotFoundException 
      */
-    
-    public String control() throws FileNotFoundException {
-        _command = _command.toLowerCase();
-        String result = "";
-        if (_command == "search") {
-            result = searchText(_userInput);
-        }
-        System.out.println(result);
-        return result;
-    }
-    
-    public String searchText(String s) throws FileNotFoundException{
+    public boolean searchText(String path, String s) throws FileNotFoundException{
         String result = "";
         int lineCounter = 0;
+        boolean contains = false;
         s = s.toLowerCase();
-        if (readFile()) {
+        if (readFile(path)) {
             File fileInput = new File(_file);
             Scanner in = new Scanner(fileInput);
             while (in.hasNextLine()) {
@@ -97,21 +112,41 @@ public class Commands {
                 line = line.toLowerCase();
                 lineCounter++;
                 if (s.equals(line)) {
-                    String displayStatus = "Word found: " + line + "\n";
-                    String displayLineNumber = "Word " + lineCounter + " of " +countWords() + "\n";
-                    String displayFileName = "In file: " + _file + "\n";
-                    result = "\n" + displayStatus + displayFileName + displayLineNumber + "\n";
-                }
+                    String displayStatus = "Word found: " + line;
+                    String displayFileName = "In file: " + _file;
+                    String displayLineNumber = "Word " + lineCounter + " of " +countWords(_file) + "\n";
+                    contains = true;
+                    System.out.println(displayStatus);
+                    System.out.println(displayFileName);
+                    System.out.println(displayLineNumber);
+                } 
             }
+            
         }
-        return result;
+        return contains;
+    }
+    
+    public int compare(String path1, String path2) throws FileNotFoundException{
+        int difference = 0;
+        
+        if(readFile(path1) && readFile(path2)) {
+            int totalWordsFile1 = countWords(path1);
+            int totalWordsFile2 = countWords(path2);
+            int lineNumber1 = findLineNumber(path1, _userInput);
+            int lineNumber2 = findLineNumber(path2, _userInput);
+            
+            
+        } else {
+            
+        }
+        
+        return difference;
     }
    
     @Override
     public String toString() {
         String displayPath = "File: " + _file;
-        String displayWordCount = "Word Count: " + _wordCount;
-        return displayPath + "\n" + displayWordCount;
+        return displayPath;
     }
 
 }
